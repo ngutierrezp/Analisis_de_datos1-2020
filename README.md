@@ -18,7 +18,7 @@ Algunos de estos subdataset poseen información corrupta y no legible, por lo qu
 
 [![corrupted-data.png](https://i.postimg.cc/wBtfFHMw/corrupted-data.png)](https://postimg.cc/2qD78s4W)
 
-##Atributos importantes
+## Atributos importantes
 
 A continuacion se presenta una pequeña explicacion para cada dato utilizado en el subdataset procesado, ademas de indicar que tipo de variable corresponde. 
 
