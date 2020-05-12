@@ -7,6 +7,7 @@ getAllData <- function() {
   processed.headers = c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal","num")
   
   
+  
   ## Dataset Cleveland 
   
   cleveland <- read.table("data/processed.cleveland.data",header = F, sep = ",", col.names = processed.headers)

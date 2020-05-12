@@ -1,9 +1,12 @@
 
 library(corrplot)
 
-showCorplot <- function(df) {
+showCorplot <- function(df,numerical.vectors) {
   
-  correlacion<-round(cor(df[1:(length(df)-1)], use="complete.obs"), 2)
+  headers <- colnames(df)
+
+  
+  correlacion<-round(cor(df[numerical.vectors], use="complete.obs"), 2)
   
   corrplot(correlacion, method="circle", type="lower")
   
