@@ -1,10 +1,7 @@
 
-dirstudio <- rstudioapi::getSourceEditorContext()$path
+dirstudio <- dirname(rstudioapi::getSourceEditorContext()$path)
 
-dir <- getwd()
-
-setwd(dir)
-
+setwd(dirstudio) 
 
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
