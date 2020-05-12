@@ -24,6 +24,7 @@ getAllData <- function() {
   
   switzerland <- read.table("data/processed.switzerland.data",header = F, sep = ",", col.names = processed.headers)
   
+  
   switzerland$loc <- rep("switz", nrow(switzerland))
   
   ## Dataset va
@@ -45,7 +46,7 @@ getAllData <- function() {
   all$restecg = as.integer(all$restecg)
   all$thalach = as.integer(all$thalach)
   all$exang = as.integer(all$exang)
-  all$oldpeak = as.integer(all$oldpeak)
+  all$oldpeak = as.double(all$oldpeak)
   all$slope = as.integer(all$slope)
   all$ca = as.integer(all$ca)
   all$thal = as.integer(all$thal)

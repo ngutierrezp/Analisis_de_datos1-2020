@@ -3,9 +3,8 @@ library(corrplot)
 
 showCorplot <- function(df) {
   
-  correlacion<-round(cor(df[1:(length(df)-1)]), 1)
+  correlacion<-round(cor(df[1:(length(df)-1)], use="complete.obs"), 2)
   
-  corrplot(correlacion, method="number", type="lower")
-  
+  corrplot(correlacion, method="circle", type="lower")
   
 }
