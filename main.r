@@ -6,6 +6,8 @@ setwd(dirstudio)
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
 if(!exists("normal.test.2df", mode="function")) source("scripts/meanTest.R")
+if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
+if(!exists("getAnalysisLoc", mode="function")) source("scripts/getAnalysisLoc.R")
 
 
 # df de todas las personas incluyendo sus localidades 
@@ -19,14 +21,19 @@ numerical.df <- all.df[var.numerical]
 
 showCorplot(all.df,var.numerical)
 
-healthy <- all.df[all.df$num == 0,] # personas sin problemas al corazón
-sick <- all.df[all.df$num > 0,] # personas con problemas al corazón
+healthy <- all.df[all.df$num == 0,] # personas sin problemas al corazï¿½n
+sick <- all.df[all.df$num > 0,] # personas con problemas al corazï¿½n
 
 
 
-# df de las personas sin problemas de corazón con  solo las variables numericas
+###############################################################
+# Test de medias para dos grupos -> Sanos y enfermos
+###############################################################
+
+
+# df de las personas sin problemas de corazï¿½n con  solo las variables numericas
 numerical.health <- healthy[var.numerical]  
-# df de las personas con problemas de corazón con  solo las variables numericas
+# df de las personas con problemas de corazï¿½n con  solo las variables numericas
 numerical.sick <- sick[var.numerical]
 
 alpha <- 0.05
@@ -48,6 +55,26 @@ normal.dist.sick <- df.normal.result[[2]]$names[df.normal.result[[2]]$p.value > 
 
 
 
+
+
+
+
+
+
+
+
+var.numerical.loc <- c(1,4,5,8,10,12,15)
+numerical.loc.df <- all.df[var.numerical.loc]
+
+all.analysis <- getAnalysis(numerical.df)
+
+cleve.analysis <- getAnalysisLoc(numerical.loc.df,"cleve")
+
+hung.analysis <- getAnalysisLoc(numerical.loc.df,"hung")
+
+switz.analysis <- getAnalysisLoc(numerical.loc.df,"switz")
+
+va.analysis <- getAnalysisLoc(numerical.loc.df,"va")
 
 
 ## Analisis estadisticos con variables numericas
