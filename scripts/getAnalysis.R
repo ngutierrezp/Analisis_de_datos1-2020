@@ -1,13 +1,6 @@
-library(data.table)
+
 
 getAnalysis <- function(numerical.df){
-  data.age <- c(summary(numerical.df$age),0)
-  data.trestbps <- c(summary(numerical.df$trestbps))
-  data.chol <- c(summary(numerical.df$chol))
-  data.thalach <- c(summary(numerical.df$thalach))
-  data.oldpeak <- c(summary(numerical.df$oldpeak))
-  data.ca <- c(summary(numerical.df$ca))
-  
   var.age <- var(numerical.df$age,na.rm = TRUE)
   var.trestbps <- var(numerical.df$trestbps, na.rm = TRUE)
   var.chol <- var(numerical.df$chol,na.rm = TRUE)
@@ -15,7 +8,19 @@ getAnalysis <- function(numerical.df){
   var.oldpeak <- var(numerical.df$oldpeak, na.rm = TRUE)
   var.ca <- var(numerical.df$ca, na.rm = TRUE)
   
-  var.list <- c(var.age,var.trestbps,var.chol,var.thalach,var.oldpeak,var.ca)
+  sd.age <- sd(numerical.df$age,na.rm = TRUE)
+  sd.trestbps <- sd(numerical.df$trestbps, na.rm = TRUE)
+  sd.chol <- sd(numerical.df$chol,na.rm = TRUE)
+  sd.thalach <- sd(numerical.df$thalach, na.rm = TRUE)
+  sd.oldpeak <- sd(numerical.df$oldpeak, na.rm = TRUE)
+  sd.ca <- sd(numerical.df$ca, na.rm = TRUE)
+  
+  data.age <- c(summary(numerical.df$age),"Na's"=0,"var"=var.age,"sd"=sd.age)
+  data.trestbps <- c(summary(numerical.df$trestbps),"var"=var.trestbps,"sd"=sd.trestbps)
+  data.chol <- c(summary(numerical.df$chol),"var"=var.chol,"sd"=sd.chol)
+  data.thalach <- c(summary(numerical.df$thalach),"var"=var.thalach,"sd"=sd.thalach)
+  data.oldpeak <- c(summary(numerical.df$oldpeak),"var"=var.oldpeak,"sd"=sd.oldpeak)
+  data.ca <- c(summary(numerical.df$ca),"var"=var.ca,"sd"=sd.ca)
   
   
   df <- data.frame(age = data.age,
@@ -25,9 +30,6 @@ getAnalysis <- function(numerical.df){
                    oldpeak = data.oldpeak,
                    ca = data.ca
                    )
-  df[nrow(df) + 1,] = var.list
-  
-  setattr(df, "row.names", c("Min","1st Qu.","Median","Mean","3rd Qu.","Max","NAs","Var"))
 
   
   return(df)
