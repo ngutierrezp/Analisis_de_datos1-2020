@@ -5,6 +5,7 @@ setwd(dirstudio)
 
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
+if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
 
 
 
@@ -15,6 +16,9 @@ var.numerical <- c(1,4,5,8,10,12)
 numerical.df <- all.df[var.numerical]
 
 showCorplot(all.df,var.numerical)
+
+all.analysis <- getAnalysis(numerical.df)
+
 
 ## Analisis estadisticos con variables numericas
 
