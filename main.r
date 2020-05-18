@@ -8,7 +8,7 @@ if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
 if(!exists("normal.test.2df", mode="function")) source("scripts/meanTest.R")
 if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
 if(!exists("getAnalysisLoc", mode="function")) source("scripts/getAnalysisLoc.R")
-
+if(!exists("showBoxplot", mode="function")) source("scripts/generateBoxplot.R")
 
 # df de todas las personas incluyendo sus localidades 
 all.df <- getAllData()
@@ -62,12 +62,14 @@ normal.dist.sick <- df.normal.result[[2]]$names[df.normal.result[[2]]$p.value > 
 
 
 
-
+#Se define las variables numericas junto a la localizacion 
 var.numerical.loc <- c(1,4,5,8,10,12,15)
 numerical.loc.df <- all.df[var.numerical.loc]
 
+#Se obtienen los datos estadisticos de todos los lugares en conjunto
 all.analysis <- getAnalysis(numerical.df)
 
+#Se obtienen los datos estadisticos de los datos separados por lugar
 cleve.analysis <- getAnalysisLoc(numerical.loc.df,"cleve")
 
 hung.analysis <- getAnalysisLoc(numerical.loc.df,"hung")
@@ -75,6 +77,8 @@ hung.analysis <- getAnalysisLoc(numerical.loc.df,"hung")
 switz.analysis <- getAnalysisLoc(numerical.loc.df,"switz")
 
 va.analysis <- getAnalysisLoc(numerical.loc.df,"va")
+
+showBoxplot(numerical.loc.df)
 
 
 ## Analisis estadisticos con variables numericas
