@@ -20,7 +20,7 @@ library(plyr)
 
 # Estructura del main
 
-# Es el archivo principal para el llamado de funciones de todo el código
+# Es el archivo principal para el llamado de funciones de todo el cÃ³digo
 # primeramente se carga todo el dataset limpio para el tabajo de analisis
 
 
@@ -35,7 +35,7 @@ library(plyr)
 
 #       1-  Docimas de contraste para las variable numericas
 
-#       2-  Regresión lineal para generar el modelo de
+#       2-  RegresiÃ³n lineal para generar el modelo de
 #           personas sanas o enfermas
 
 
@@ -51,8 +51,7 @@ if(!exists("normal.test.2df", mode="function")) source("scripts/statisticalTest.
 if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
 if(!exists("getAnalysisLoc", mode="function")) source("scripts/getAnalysisLoc.R")
 if(!exists("bar.plot.categorical", mode="function")) source("scripts/categoricalPlot.R")
-
-
+if(!exists("showBoxplot", mode="function")) source("scripts/generateBoxplot.R")
 
 
 
@@ -62,19 +61,19 @@ if(!exists("bar.plot.categorical", mode="function")) source("scripts/categorical
 
 
 # Los datos limpios son una serie de dataframes
-# que contienen la información ya limpia de todo
-# el data set. Tambien contienen información
+# que contienen la informaciÃ³n ya limpia de todo
+# el data set. Tambien contienen informaciÃ³n
 # diferenciada segun se especifique:
 
 
 
-#     all.df :  Contiene toda la información del dataset
-#               incluida la información del lugar de donde
+#     all.df :  Contiene toda la informaciÃ³n del dataset
+#               incluida la informaciÃ³n del lugar de donde
 #               fueron obtenidos (cleve,swit,hung,va)
 all.df <- getAllData()
 
-#     mixed.all.df :  Contiene toda la información limpia
-#                     y legible con con la interpretación
+#     mixed.all.df :  Contiene toda la informaciÃ³n limpia
+#                     y legible con con la interpretaciÃ³n
 #                     categorica de los numeros.
 mixed.all.df <- getMixedData(all.df)
 
@@ -95,14 +94,14 @@ numerical.df <- all.df[var.numerical]
 
 
 #     healthy : Es un dataframe que proviene de all.df y
-#               contiene toda la información de las personas
-#               sanas del corazón
+#               contiene toda la informaciÃ³n de las personas
+#               sanas del corazÃ³n
 healthy <- all.df[all.df$num == 0,] 
 
 
 #     sicky :   Es un dataframe que proviene de all.df y
-#               contiene toda la información de las personas
-#               enfermas del corazón
+#               contiene toda la informaciÃ³n de las personas
+#               enfermas del corazÃ³n
 sicky <- all.df[all.df$num > 0,] 
 
 
@@ -154,15 +153,15 @@ va.analysis <- getAnalysisLoc(numerical.loc.df,"va")
 
 
 
-## Matriz de correlación
+## Matriz de correlaciÃ³n
 
 showCorplot(all.df,var.numerical)
 
-# como se puede ver la relación que se ve en la matriz
+# como se puede ver la relaciÃ³n que se ve en la matriz
 # es muy debil lo cual significa que no existen relaciones
 # del tipo lineal entre las variables, o tambien que
 # las variables tienen valores muy extremos que afectaton
-# la medicion de la correlación.
+# la medicion de la correlaciÃ³n.
 
 
 #   1- Variables categoricas
@@ -178,7 +177,7 @@ contigency.table <- table(all.df[var.categorial])
 # sin embargo se puede estudiar las clases que son de interes 
 # las cuales son Sanos y enfermos.
 
-# Entonces ¿qué frecuencia tienen las variables segun sanos
+# Entonces Â¿ QuÃ© frecuencia tienen las variables segun sanos
 # y enfermos ?
 
 
@@ -217,7 +216,7 @@ result.maan <- mann.whitney.2df.test(numerical.health,numerical.sick)
 # dados los resutados de Mann-Whitney, se puede ver que las caracteristicas
 # de los dos grupos difieren, por lo que se podria pensar que 
 # estas caracteristicas podrian ser significativas al momento de 
-# discriminar a un enfermo de corazón
+# discriminar a un enfermo de corazÃ³n
 
 
 
