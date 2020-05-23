@@ -54,11 +54,69 @@ getAllData <- function() {
   all$num = as.integer(all$num)
   
   
+  all$num = ifelse(all$num == 0, 0, 1)
+  
+  
   
   
   return(all)
   
 }
 
+
+getMixedData <- function(df){
+  
+  age <- df$age
+  
+  sex <- ifelse(df$sex == 1, "Male","Female")
+  
+  cp <- df$cp
+  cp <- replace(cp,cp==1,"typical angina")
+  cp <- replace(cp,cp==2,"atypical angina")
+  cp <- replace(cp,cp==3,"non-anginal pain")
+  cp <- replace(cp,cp==4,"asymptomatic")
+  
+  trestbps <- df$trestbps
+  
+  chol <- df$chol
+  
+  fbs <- ifelse(df$fbs == 1, "Yes","No")
+  
+  restecg <-df$restecg
+  restecg <- replace(restecg,restecg==0,"normal")
+  restecg <- replace(restecg,restecg==1," ST-T wave abnormality")
+  restecg <- replace(restecg,restecg==2," ventricular hypertrophy")
+  
+  thalach <-df$thalach
+  
+  exang <- ifelse(df$exang == 1, "Yes","No")
+  
+  oldpeak <- df$oldpeak
+  
+  slope <- df$slope
+  slope <- replace(slope,slope==1,"upsloping")
+  slope <- replace(slope,slope==2,"flat")
+  slope <- replace(slope,slope==3,"downsloping")
+  
+  ca <- df$ca
+  
+  thal <- df$thal
+  thal <- replace(thal,thal==1,NA)
+  thal <- replace(thal,thal==2,"normal")
+  thal <- replace(thal,thal==5,"normal")
+  thal <- replace(thal,thal==3,"fixed defect")
+  thal <- replace(thal,thal==6,"fixed defect")
+  thal <- replace(thal,thal==4,"reversable defect")
+  thal <- replace(thal,thal==7,"reversable defect")
+  
+  disease <- ifelse(df$num == 1, "Yes","No")
+  
+  loc <- df$loc
+  
+  
+  mix <- data.frame(age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,disease,loc)
+  
+  return(mix)
+}
 
 

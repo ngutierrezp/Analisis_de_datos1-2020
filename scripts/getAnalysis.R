@@ -15,12 +15,12 @@ getAnalysis <- function(numerical.df){
   sd.oldpeak <- sd(numerical.df$oldpeak, na.rm = TRUE)
   sd.ca <- sd(numerical.df$ca, na.rm = TRUE)
   
-  data.age <- c(summary(numerical.df$age),"Na's"=0,"var"=var.age,"sd"=sd.age)
-  data.trestbps <- c(summary(numerical.df$trestbps),"var"=var.trestbps,"sd"=sd.trestbps)
-  data.chol <- c(summary(numerical.df$chol),"var"=var.chol,"sd"=sd.chol)
-  data.thalach <- c(summary(numerical.df$thalach),"var"=var.thalach,"sd"=sd.thalach)
-  data.oldpeak <- c(summary(numerical.df$oldpeak),"var"=var.oldpeak,"sd"=sd.oldpeak)
-  data.ca <- c(summary(numerical.df$ca),"var"=var.ca,"sd"=sd.ca)
+  data.age <- c(my_summary(numerical.df$age),"var"=var.age,"sd"=sd.age)
+  data.trestbps <- c(my_summary(numerical.df$trestbps),"var"=var.trestbps,"sd"=sd.trestbps)
+  data.chol <- c(my_summary(numerical.df$chol),"var"=var.chol,"sd"=sd.chol)
+  data.thalach <- c(my_summary(numerical.df$thalach),"var"=var.thalach,"sd"=sd.thalach)
+  data.oldpeak <- c(my_summary(numerical.df$oldpeak),"var"=var.oldpeak,"sd"=sd.oldpeak)
+  data.ca <- c(my_summary(numerical.df$ca),"var"=var.ca,"sd"=sd.ca)
   
   
   df <- data.frame(age = data.age,
@@ -33,4 +33,15 @@ getAnalysis <- function(numerical.df){
 
   
   return(df)
+}
+
+
+
+my_summary <- function(v){
+  if(!any(is.na(v))){
+    res <- c(summary(v),"NA's"=0)
+  } else{
+    res <- summary(v)
+  }
+  return(res)
 }
