@@ -183,6 +183,7 @@ contigency.table <- table(all.df[var.categorial])
 
 plots <- bar.plot.categorical(mixed.all.df)
 
+# 
 
 
 ###############################################################
@@ -190,7 +191,9 @@ plots <- bar.plot.categorical(mixed.all.df)
 ###############################################################
 
 
+############### regresion logistica
 
+##### matriz de confucion en r
 
 
 alpha <- 0.05

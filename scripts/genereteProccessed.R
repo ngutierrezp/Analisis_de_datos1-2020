@@ -115,6 +115,15 @@ getMixedData <- function(df){
   
   
   mix <- data.frame(age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,disease,loc)
+  mix$sex <-as.character(mix$sex)
+  mix$cp <-as.character(mix$cp)
+  mix$fbs <-as.character(mix$fbs)
+  mix$restecg <-as.character(mix$restecg)
+  mix$exang <-as.character(mix$exang)
+  mix$slope <-as.character(mix$slope)
+  mix$thal <-as.character(mix$thal)
+  mix$loc <-as.character(mix$loc)
+  
   
   return(mix)
 }
