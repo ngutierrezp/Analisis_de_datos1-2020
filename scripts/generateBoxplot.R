@@ -1,82 +1,63 @@
 
-showBoxplot <- function(numerical.loc){
+showBoxplot <- function(numerical.health,numerical.sick){
+  age.health <- numerical.health$age
+  age.sick <- numerical.sick$age
   
-  #Boxplot de age
-  cleve.age <- numerical.df[numerical.loc$loc == "cleve",]$age
-  switz.age <- numerical.df[numerical.loc$loc == "switz",]$age
-  hung.age <- numerical.df[numerical.loc$loc == "hung",]$age
-  va.age <- numerical.df[numerical.loc$loc == "va",]$age
-  
-  boxplot(cleve.age,switz.age,hung.age,va.age,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(age.health,age.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Age Comparison",
-          xlab = "Location",
+          xlab = "Pacients",
           ylab = "age")
   
-  #Boxplot de trestbps
-  cleve.trestbps <- numerical.df[numerical.loc$loc == "cleve",]$trestbps
-  switz.trestbps <- numerical.df[numerical.loc$loc == "switz",]$trestbps
-  hung.trestbps <- numerical.df[numerical.loc$loc == "hung",]$trestbps
-  va.trestbps <- numerical.df[numerical.loc$loc == "va",]$trestbps
+  trestbps.health <- numerical.health$trestbps
+  trestbps.sick <- numerical.sick$trestbps
   
-  boxplot(cleve.trestbps,switz.trestbps,hung.trestbps,va.trestbps,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(trestbps.health,trestbps.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Trestbps Comparison",
-          xlab = "Location",
-          ylab = "trestbps")
+          xlab = "Pacients",
+          ylab = "age")
   
-  #Boxplot de Chol
-  cleve.chol <- numerical.df[numerical.loc$loc == "cleve",]$chol
-  switz.chol <- numerical.df[numerical.loc$loc == "switz",]$chol
-  hung.chol <- numerical.df[numerical.loc$loc == "hung",]$chol
-  va.chol <- numerical.df[numerical.loc$loc == "va",]$chol
+  chol.health <- numerical.health$chol
+  chol.sick <- numerical.sick$chol
   
-  boxplot(cleve.chol,switz.chol,hung.chol,va.chol,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(chol.health,chol.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Chol Comparison",
-          xlab = "Location",
-          ylab = "chol")
+          xlab = "Pacients",
+          ylab = "age")
+
+  thalach.health <- numerical.health$thalach
+  thalach.sick <- numerical.sick$thalach
   
-  #Boxplot de Thalach
-  cleve.thalach <- numerical.df[numerical.loc$loc == "cleve",]$thalach
-  switz.thalach <- numerical.df[numerical.loc$loc == "switz",]$thalach
-  hung.thalach <- numerical.df[numerical.loc$loc == "hung",]$thalach
-  va.thalach <- numerical.df[numerical.loc$loc == "va",]$thalach
-  
-  boxplot(cleve.thalach,switz.thalach,hung.thalach,va.thalach,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(thalach.health,thalach.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Thalach Comparison",
-          xlab = "Location",
-          ylab = "Thalach")
+          xlab = "Pacients",
+          ylab = "age")
   
-  #Boxplot de oldpeak
-  cleve.oldpeak <- numerical.df[numerical.loc$loc == "cleve",]$oldpeak
-  switz.oldpeak <- numerical.df[numerical.loc$loc == "switz",]$oldpeak
-  hung.oldpeak <- numerical.df[numerical.loc$loc == "hung",]$oldpeak
-  va.oldpeak <- numerical.df[numerical.loc$loc == "va",]$oldpeak
+  oldpeak.health <- numerical.health$oldpeak
+  oldpeak.sick <- numerical.sick$oldpeak
   
-  boxplot(cleve.oldpeak,switz.oldpeak,hung.oldpeak,va.oldpeak,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(oldpeak.health,oldpeak.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Oldpeak Comparison",
-          xlab = "Location",
-          ylab = "oldpeak")
+          xlab = "Pacients",
+          ylab = "age")
   
-  #Boxplot de ca
-  cleve.ca <- numerical.df[numerical.loc$loc == "cleve",]$ca
-  switz.ca <- numerical.df[numerical.loc$loc == "switz",]$ca
-  hung.ca <- numerical.df[numerical.loc$loc == "hung",]$ca
-  va.ca <- numerical.df[numerical.loc$loc == "va",]$ca
+  ca.health <- numerical.health$ca
+  ca.sick <- numerical.sick$ca
   
-  boxplot(cleve.ca,switz.ca,hung.ca,va.ca,
-          names = c("cleve","switz","hung","va"),
-          col = c("red","green","blue","yellow"),
+  boxplot(ca.health,ca.sick,
+          names = c("health","sick"),
+          col = c("red","green"),
           main = "Ca Comparison",
-          xlab = "Location",
-          ylab = "ca")
+          xlab = "Pacients",
+          ylab = "age")
   
 }
