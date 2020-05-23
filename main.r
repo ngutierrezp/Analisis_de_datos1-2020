@@ -49,7 +49,7 @@ if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R"
 if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
 if(!exists("normal.test.2df", mode="function")) source("scripts/statisticalTest.R")
 if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
-if(!exists("getAnalysisLoc", mode="function")) source("scripts/getAnalysisLoc.R")
+if(!exists("getAnalysisSH", mode="function")) source("scripts/getAnalysisSH.R")
 if(!exists("bar.plot.categorical", mode="function")) source("scripts/categoricalPlot.R")
 if(!exists("showBoxplot", mode="function")) source("scripts/generateBoxplot.R")
 
@@ -142,16 +142,14 @@ numerical.loc.df <- all.df[var.numerical.loc]
 all.analysis <- getAnalysis(numerical.df) # analisis completo
 
 
-## Analisis por localizacion
-cleve.analysis <- getAnalysisLoc(numerical.loc.df,"cleve") 
+##Analisis de enfermos y sanos
+health.analysis <- getAnalysisSH(numerical.health)
 
-hung.analysis <- getAnalysisLoc(numerical.loc.df,"hung")
+sick.analysis <- getAnalysisSH(numerical.sick)
 
-switz.analysis <- getAnalysisLoc(numerical.loc.df,"switz")
+##Generacion de boxplot para los datos numericos 
 
-va.analysis <- getAnalysisLoc(numerical.loc.df,"va")
-
-
+showBoxplot(numerical.health,numerical.sick)
 
 ## Matriz de correlación
 
