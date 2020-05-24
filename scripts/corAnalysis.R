@@ -1,4 +1,7 @@
 
+
+
+
 library(corrplot)
 
 showCorplot <- function(df,numerical.vectors) {
@@ -11,3 +14,8 @@ showCorplot <- function(df,numerical.vectors) {
   corrplot(correlacion, method="circle", type="lower")
   
 }
+
+
+# create unique combinations of column names
+# sorting will help getting a better plot (upper triangular)
+

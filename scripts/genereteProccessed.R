@@ -12,13 +12,13 @@ getAllData <- function() {
   
   cleveland <- read.table("data/processed.cleveland.data",header = F, sep = ",", col.names = processed.headers)
   
-  cleveland$loc <- rep("cleve", nrow(cleveland))
+  cleveland$loc <- rep(1, nrow(cleveland))
   
   ## Dataset hungarian 
   
   hungarian <- read.table("data/processed.hungarian.data",header = F, sep = ",", col.names = processed.headers)
   
-  hungarian$loc <- rep("hung", nrow(hungarian))
+  hungarian$loc <- rep(3, nrow(hungarian))
   
   ## Dataset switzerland
   
@@ -26,14 +26,14 @@ getAllData <- function() {
   switzerland <- read.table("data/processed.switzerland.data",header = F, sep = ",", col.names = processed.headers)
   
   
-  switzerland$loc <- rep("switz", nrow(switzerland))
+  switzerland$loc <- rep(2, nrow(switzerland))
   
   ## Dataset va
   
   
   va <- read.table("data/processed.va.data",header = F, sep = ",", col.names = processed.headers)
   
-  va$loc <- rep("va", nrow(va))
+  va$loc <- rep(4, nrow(va))
   
   all <-rbind(cleveland,hungarian,switzerland,va)
   
@@ -52,6 +52,14 @@ getAllData <- function() {
   all$ca = as.integer(all$ca)
   all$thal = as.integer(all$thal)
   all$num = as.integer(all$num)
+  
+  
+  all$thal <- replace(all$thal,all$thal==2,10)
+  all$thal <- replace(all$thal,all$thal==5,10)
+  all$thal <- replace(all$thal,all$thal==3,20)
+  all$thal <- replace(all$thal,all$thal==6,20)
+  all$thal <- replace(all$thal,all$thal==4,30)
+  all$thal <- replace(all$thal,all$thal==7,30)
   
   
   all$num = ifelse(all$num == 0, 0, 1)
@@ -101,17 +109,17 @@ getMixedData <- function(df){
   ca <- df$ca
   
   thal <- df$thal
-  thal <- replace(thal,thal==1,NA)
-  thal <- replace(thal,thal==2,"normal")
-  thal <- replace(thal,thal==5,"normal")
-  thal <- replace(thal,thal==3,"fixed defect")
-  thal <- replace(thal,thal==6,"fixed defect")
-  thal <- replace(thal,thal==4,"reversable defect")
-  thal <- replace(thal,thal==7,"reversable defect")
+  thal <- replace(thal,thal==10,"normal")
+  thal <- replace(thal,thal==20,"fixed defect")
+  thal <- replace(thal,thal==30,"reversable defect")
   
   disease <- ifelse(df$num == 1, "Yes","No")
   
   loc <- df$loc
+  loc <- replace(loc,loc==1,"cleve")
+  loc <- replace(loc,loc==2,"switz")
+  loc <- replace(loc,loc==3,"hung")
+  loc <- replace(loc,loc==4,"va")
   
   
   mix <- data.frame(age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,disease,loc)

@@ -3,15 +3,20 @@
 #     Paquetes utilizados:        #
 
 
-#install.packages("corrplot")
+#install.packages("tidyverse")
 #install.packages("ggpubr")
-#install.packages('plyr')
+#install.packages("plyr")
+#install.packages("lsr")
+#install.packages("corrplot")
 
 
-library(ggplot2)
+library(tidyverse)
+library(ggpubr);
+library(plyr);
+library(lsr)
 library(corrplot)
-library(ggpubr)
-library(plyr)
+
+
 
 
 ###################################
@@ -52,6 +57,7 @@ if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
 if(!exists("getAnalysisSH", mode="function")) source("scripts/getAnalysisSH.R")
 if(!exists("bar.plot.categorical", mode="function")) source("scripts/categoricalPlot.R")
 if(!exists("showBoxplot", mode="function")) source("scripts/generateBoxplot.R")
+if(!exists("conf.matrix ", mode="function")) source("scripts/confMatrix.R")
 
 
 
@@ -165,15 +171,16 @@ showCorplot(all.df,var.numerical)
 #   1- Variables categoricas
 ################################
 
-# Una tabla de contigencia de todas las variables 
-# categoricas, resulta en una matriz muy extensa
 
 
-contigency.table <- table(all.df[var.categorial])
+#tabla de frecuencias para variables categoricas
 
+frecuency.table <- count(mixed.all.df[var.categorial])
 
-# sin embargo se puede estudiar las clases que son de interes 
-# las cuales son Sanos y enfermos.
+# sin embargo esta tabla resulta tener mucha información
+# debido a la cantidad de variables presentes. Pero como se
+# estan estudiando las clases (sanos y enfermos), se puede
+# mostrar información relacionada a cada clase
 
 # Entonces Â¿ QuÃ© frecuencia tienen las variables segun sanos
 # y enfermos ?
@@ -181,25 +188,80 @@ contigency.table <- table(all.df[var.categorial])
 
 plots <- bar.plot.categorical(mixed.all.df)
 
-# 
+
+# Matriz de correlación variables categoricas
+# La matriz fue generada con test Chi^2 y cram V
+
+# !!!!! Las funciones acontinuacion no fueron posible
+# separarlas del main ya que ocupan valores de este mismo
+# que no pueden ser pasador por argumento
+
+# function de mapeo de los test chi t cramV
+test.chi.cram <- function(x,y) {
+  tbl = mixed.all.df[var.categorial] %>% select(x,y) %>% table()
+  chisq_pval = round(chisq.test(tbl)$p.value, 4)
+  cramV = round(cramersV(tbl), 4) 
+  data.frame(x, y, chisq_pval, cramV) }
 
 
-###############################################################
+
+categorical.cor <- function(df.categorical){
+  
+  df_comb = data.frame(t(combn(sort(names(df.categorical)), 2)), stringsAsFactors = F)
+  
+  # apply function to each variable combination
+  df_res = map2_df(df_comb$X1, df_comb$X2, test.chi.cram)
+  
+  # plot results
+  result <-df_res %>%
+    ggplot(aes(x,y,fill=cramV))+
+    geom_tile()+
+    geom_text(aes(x,y,label=cramV))+
+    scale_fill_gradient(low="red", high="yellow")+
+    theme_classic()
+  
+  return(result)
+  
+  
+}
+
+cor.categ <- categorical.cor(mixed.all.df[var.categorial])
+
+# en este caso si se puede ver una relación entre las variables
+# aun que no sean tan fuertes, si exite y se puede concluir con estos 
+# datos
+
+# El test de Chi^2 no arrojo mayor información , esto debido a
+# que los datos tienen mucha presencia de NA
+
+# como el test CHi^2 no da mayor información, se ha decidido ingnorarlo
+
+
+
+####################################################
+#                                                  #  
+#         II.    ESTADISTICA INFERENCIAL           #
+#                                                  #
+####################################################
+
+
+
 # Test de medias para dos grupos -> Sanos y enfermos
 ###############################################################
 
+# para poder realizar este tes como corresponde, es necesario
+# separar las variables numericas a trabajar.
 
-############### regresion logistica
-
-##### matriz de confucion en r
-
-
-alpha <- 0.05
+# Primeramente hay que verificar que las variables a contrastar se
+# distribuyan de una forma normal
 
 # lista de 2 df que contiene los p-valor para cada una de las variables
 # numericas de los dos grupos a analizar
+
 df.normal.result <- normal.test.2df(numerical.health,numerical.sick)
 
+
+alpha <- 0.05
 
 normal.dist.health <- df.normal.result[[1]]$names[df.normal.result[[1]]$p.value > alpha]
 
@@ -208,10 +270,11 @@ normal.dist.sick <- df.normal.result[[2]]$names[df.normal.result[[2]]$p.value > 
 # Como se puede ver ningun grupo comparte la normalidad en sus variables
 # por lo que es necesario utilizar una prueba no parametrica
 
+## test no parametrico ##
+
+
+
 # Entonces una alternativa no parametrica para prueba de medias seria Mann-Whitney
-
-
-
 result.maan <- mann.whitney.2df.test(numerical.health,numerical.sick) 
 
 # dados los resutados de Mann-Whitney, se puede ver que las caracteristicas
@@ -219,15 +282,102 @@ result.maan <- mann.whitney.2df.test(numerical.health,numerical.sick)
 # estas caracteristicas podrian ser significativas al momento de 
 # discriminar a un enfermo de corazÃ³n
 
+# En sistesis en test realizado dice que no existe una igualdad en la distribución
+# de las entre las variables de sanos y enfermos
 
 
 
 
 
-## Analisis estadisticos con variables numericas
+############### regresion logistica ###############
 
-# Test estatico para dos grupos (sanos y enfermos) y comparar las diferentes medias
-# para ver si hay alguna diferencia entre las medias de los grupos
+# Para obtener un modelo de regresion legistica acorde al estudio
+# es necesario aplicar una regresión logistica multiple para decir
+# la probabilidad de que una persona sea sana o enferma.
 
 
-# regresion logista probando diferentes variables contra el grupo de sanos o enfermos (dicotomica)
+# para hacer el modelo es necesario tomar todo el dataset
+# sin incluir la separación por locación ya que puede
+# afectar al modelo. Entonces:
+
+# se compara todo el dataset contra num ( resultado de sano o enfemo )
+
+
+## Primeraremnte se hará uso de todo el data set para estudiar
+# la significación de las variables:
+
+reg.log.multi <- glm(num ~ ., family = "binomial", data = all.df[,-15])
+
+
+result.reg <- summary(reg.log.multi)
+
+# Del resultado de esto se puede ver que las variables mas significativas
+# son :
+
+#       - sex(2)
+#       - cp(3)
+#       - thalach(8)
+#       - exang(9)
+
+
+# y las variables menos significativas son :
+
+#       - age(1)
+#       - fbs(6)
+#       - restecg(7)
+#       - thal(13)
+
+
+# como estas variables no son significativas para el modelo
+# por lo que se pueden omitir y volver a realizar el modelo
+
+
+# Como ya se sabe que variables son las significativas 
+# podemos volver a crear un modelo pero esta vez
+# se separará en dos grupos, uno de entrenamiento y 
+# de prueba
+
+
+sig.all.df <- all.df[,-c(1,6,7,13,15)] # data set significativo
+
+
+set.seed(170297)
+
+ntrain <- nrow(sig.all.df) * 0.7
+
+index_train<-sample(1:nrow(sig.all.df),size = ntrain)
+
+train.df<-sig.all.df[index_train,]
+
+test.df<-sig.all.df[-index_train,]
+
+
+
+
+high.reg <- glm(num ~ ., family = "binomial", data = train.df)
+
+high.result <- summary(high.reg)
+
+
+##### matriz de confucion en r #####
+
+matrix <- conf.matrix(high.reg, test.df, 0.5)
+
+# matriz de confucion
+conf.matriz<- matrix$matrix
+
+#datos del mismo modelo
+model.data <- matrix$data
+
+
+
+# https://rpubs.com/chzelada/275494 
+
+# https://sites.google.com/site/tecnicasdeinvestigaciond38/estadisticas-no-parametricas/3-6-coeficiente-v-de-cramer
+
+# https://biocosas.github.io/R/060_analisis_datos_categoricos.html
+
+# https://www.kaggle.com/tentotheminus9/what-causes-heart-disease-explaining-the-model
+
+# https://rpubs.com/Joaquin_AR/229736
+
