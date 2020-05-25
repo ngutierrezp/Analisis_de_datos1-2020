@@ -54,6 +54,7 @@ getAllData <- function() {
   all$num = as.integer(all$num)
   
   
+  all$thal <- replace(all$thal,all$thal==1,NA)
   all$thal <- replace(all$thal,all$thal==2,10)
   all$thal <- replace(all$thal,all$thal==5,10)
   all$thal <- replace(all$thal,all$thal==3,20)
@@ -92,7 +93,7 @@ getMixedData <- function(df){
   
   restecg <-df$restecg
   restecg <- replace(restecg,restecg==0,"normal")
-  restecg <- replace(restecg,restecg==1," ST-T wave abnormality")
+  restecg <- replace(restecg,restecg==1," wave abnormality")
   restecg <- replace(restecg,restecg==2," ventricular hypertrophy")
   
   thalach <-df$thalach
@@ -109,6 +110,7 @@ getMixedData <- function(df){
   ca <- df$ca
   
   thal <- df$thal
+  thal <- replace(thal,thal==1,NA)
   thal <- replace(thal,thal==10,"normal")
   thal <- replace(thal,thal==20,"fixed defect")
   thal <- replace(thal,thal==30,"reversable defect")

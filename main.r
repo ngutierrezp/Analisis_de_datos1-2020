@@ -186,55 +186,8 @@ frecuency.table <- count(mixed.all.df[var.categorial])
 # y enfermos ?
 
 
-plots <- bar.plot.categorical(mixed.all.df)
+categorical.plots <- bar.plot.categorical(mixed.all.df)
 
-
-# Matriz de correlación variables categoricas
-# La matriz fue generada con test Chi^2 y cram V
-
-# !!!!! Las funciones acontinuacion no fueron posible
-# separarlas del main ya que ocupan valores de este mismo
-# que no pueden ser pasador por argumento
-
-# function de mapeo de los test chi t cramV
-test.chi.cram <- function(x,y) {
-  tbl = mixed.all.df[var.categorial] %>% select(x,y) %>% table()
-  chisq_pval = round(chisq.test(tbl)$p.value, 4)
-  cramV = round(cramersV(tbl), 4) 
-  data.frame(x, y, chisq_pval, cramV) }
-
-
-
-categorical.cor <- function(df.categorical){
-  
-  df_comb = data.frame(t(combn(sort(names(df.categorical)), 2)), stringsAsFactors = F)
-  
-  # apply function to each variable combination
-  df_res = map2_df(df_comb$X1, df_comb$X2, test.chi.cram)
-  
-  # plot results
-  result <-df_res %>%
-    ggplot(aes(x,y,fill=cramV))+
-    geom_tile()+
-    geom_text(aes(x,y,label=cramV))+
-    scale_fill_gradient(low="red", high="yellow")+
-    theme_classic()
-  
-  return(result)
-  
-  
-}
-
-cor.categ <- categorical.cor(mixed.all.df[var.categorial])
-
-# en este caso si se puede ver una relación entre las variables
-# aun que no sean tan fuertes, si exite y se puede concluir con estos 
-# datos
-
-# El test de Chi^2 no arrojo mayor información , esto debido a
-# que los datos tienen mucha presencia de NA
-
-# como el test CHi^2 no da mayor información, se ha decidido ingnorarlo
 
 
 
@@ -289,6 +242,59 @@ result.maan <- mann.whitney.2df.test(numerical.health,numerical.sick)
 
 
 
+
+
+
+######### Matriz de correlación variables categoricas #########
+# La matriz fue generada con test Chi^2 y cramer V
+
+# !!!!! Las funciones acontinuacion no fueron posible
+# separarlas del main ya que ocupan valores de este mismo
+# que no pueden ser pasador por argumento
+
+# function de mapeo de los test chi t cramV
+test.chi.cram <- function(x,y) {
+  tbl = mixed.all.df[var.categorial] %>% select(x,y) %>% table()
+  chisq_pval = round(chisq.test(tbl)$p.value, 4)
+  cramV = round(cramersV(tbl), 4) 
+  data.frame(x, y, chisq_pval, cramV) }
+
+
+
+categorical.cor <- function(df.categorical){
+  
+  df_comb = data.frame(t(combn(sort(names(df.categorical)), 2)), stringsAsFactors = F)
+  
+  # apply function to each variable combination
+  df_res = map2_df(df_comb$X1, df_comb$X2, test.chi.cram)
+  
+  # plot results
+  result <-df_res %>%
+    ggplot(aes(x,y,fill=cramV))+
+    geom_tile()+
+    geom_text(aes(x,y,label=cramV))+
+    scale_fill_gradient(low="red", high="yellow")+
+    theme_classic()
+  
+  return(result)
+  
+  
+}
+
+cor.categ <- categorical.cor(mixed.all.df[var.categorial])
+
+# en este caso si se puede ver una relación entre las variables
+# aun que no sean tan fuertes, si exite y se puede concluir con estos 
+# datos
+
+# El test de Chi^2 no arrojo mayor información , esto debido a
+# que los datos tienen mucha presencia de NA
+
+# como el test CHi^2 no da mayor información, se ha decidido ingnorarlo
+
+
+
+
 ############### regresion logistica ###############
 
 # Para obtener un modelo de regresion legistica acorde al estudio
@@ -306,7 +312,7 @@ result.maan <- mann.whitney.2df.test(numerical.health,numerical.sick)
 ## Primeraremnte se hará uso de todo el data set para estudiar
 # la significación de las variables:
 
-reg.log.multi <- glm(num ~ ., family = "binomial", data = all.df[,-15])
+reg.log.multi <- glm(num ~ ., family = "binomial", data = all.df[,-c(12,13,15)])
 
 
 result.reg <- summary(reg.log.multi)
@@ -316,8 +322,8 @@ result.reg <- summary(reg.log.multi)
 
 #       - sex(2)
 #       - cp(3)
-#       - thalach(8)
-#       - exang(9)
+#       - oldpeak(10)
+
 
 
 # y las variables menos significativas son :
@@ -325,7 +331,7 @@ result.reg <- summary(reg.log.multi)
 #       - age(1)
 #       - fbs(6)
 #       - restecg(7)
-#       - thal(13)
+
 
 
 # como estas variables no son significativas para el modelo
@@ -338,10 +344,10 @@ result.reg <- summary(reg.log.multi)
 # de prueba
 
 
-sig.all.df <- all.df[,-c(1,6,7,13,15)] # data set significativo
+sig.all.df <- all.df[,-c(1,6,7,12,13,15)] # data set significativo
 
 
-set.seed(170297)
+set.seed(985426)
 
 ntrain <- nrow(sig.all.df) * 0.7
 
@@ -371,13 +377,4 @@ model.data <- matrix$data
 
 
 
-# https://rpubs.com/chzelada/275494 
-
-# https://sites.google.com/site/tecnicasdeinvestigaciond38/estadisticas-no-parametricas/3-6-coeficiente-v-de-cramer
-
-# https://biocosas.github.io/R/060_analisis_datos_categoricos.html
-
-# https://www.kaggle.com/tentotheminus9/what-causes-heart-disease-explaining-the-model
-
-# https://rpubs.com/Joaquin_AR/229736
 
