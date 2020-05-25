@@ -54,7 +54,6 @@ if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R"
 if(!exists("showCorplot", mode="function")) source("scripts/corAnalysis.R")
 if(!exists("normal.test.2df", mode="function")) source("scripts/statisticalTest.R")
 if(!exists("getAnalysis", mode="function")) source("scripts/getAnalysis.R")
-if(!exists("getAnalysisSH", mode="function")) source("scripts/getAnalysisSH.R")
 if(!exists("bar.plot.categorical", mode="function")) source("scripts/categoricalPlot.R")
 if(!exists("showBoxplot", mode="function")) source("scripts/generateBoxplot.R")
 if(!exists("conf.matrix ", mode="function")) source("scripts/confMatrix.R")
@@ -149,9 +148,9 @@ all.analysis <- getAnalysis(numerical.df) # analisis completo
 
 
 ##Analisis de enfermos y sanos
-health.analysis <- getAnalysisSH(numerical.health)
+health.analysis <- getAnalysis(numerical.health)
 
-sick.analysis <- getAnalysisSH(numerical.sick)
+sick.analysis <- getAnalysis(numerical.sick)
 
 ##Generacion de boxplot para los datos numericos 
 

@@ -1,5 +1,10 @@
 
 showBoxplot <- function(numerical.health,numerical.sick){
+  
+  #En cada sección se obtienen las variables a graficar y 
+  #finalmente se realiza el grafico de caja
+  
+  #Grafico de caja para edad
   age.health <- numerical.health$age
   age.sick <- numerical.sick$age
   
@@ -10,6 +15,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           xlab = "Pacients",
           ylab = "age")
   
+  #Gráfico de caja para trestbps
   trestbps.health <- numerical.health$trestbps
   trestbps.sick <- numerical.sick$trestbps
   
@@ -20,6 +26,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           xlab = "Pacients",
           ylab = "trestbps")
   
+  #Gráfico de caja para chol
   chol.health <- numerical.health$chol
   chol.sick <- numerical.sick$chol
   
@@ -30,6 +37,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           xlab = "Pacients",
           ylab = "chol")
 
+  #Gráfico de caja para thalach
   thalach.health <- numerical.health$thalach
   thalach.sick <- numerical.sick$thalach
   
@@ -40,6 +48,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           xlab = "Pacients",
           ylab = "thalach")
   
+  #Gráfico de caja para oldpeak
   oldpeak.health <- numerical.health$oldpeak
   oldpeak.sick <- numerical.sick$oldpeak
   
@@ -50,6 +59,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           xlab = "Pacients",
           ylab = "oldpeak")
   
+  #Gráfico de caja para ca
   ca.health <- numerical.health$ca
   ca.sick <- numerical.sick$ca
   
