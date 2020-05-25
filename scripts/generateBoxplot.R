@@ -18,7 +18,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           col = c("red","green"),
           main = "Trestbps Comparison",
           xlab = "Pacients",
-          ylab = "age")
+          ylab = "trestbps")
   
   chol.health <- numerical.health$chol
   chol.sick <- numerical.sick$chol
@@ -28,7 +28,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           col = c("red","green"),
           main = "Chol Comparison",
           xlab = "Pacients",
-          ylab = "age")
+          ylab = "chol")
 
   thalach.health <- numerical.health$thalach
   thalach.sick <- numerical.sick$thalach
@@ -38,7 +38,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           col = c("red","green"),
           main = "Thalach Comparison",
           xlab = "Pacients",
-          ylab = "age")
+          ylab = "thalach")
   
   oldpeak.health <- numerical.health$oldpeak
   oldpeak.sick <- numerical.sick$oldpeak
@@ -48,7 +48,7 @@ showBoxplot <- function(numerical.health,numerical.sick){
           col = c("red","green"),
           main = "Oldpeak Comparison",
           xlab = "Pacients",
-          ylab = "age")
+          ylab = "oldpeak")
   
   ca.health <- numerical.health$ca
   ca.sick <- numerical.sick$ca
@@ -58,6 +58,6 @@ showBoxplot <- function(numerical.health,numerical.sick){
           col = c("red","green"),
           main = "Ca Comparison",
           xlab = "Pacients",
-          ylab = "age")
+          ylab = "ca")
   
 }
