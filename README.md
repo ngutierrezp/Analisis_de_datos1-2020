@@ -1,8 +1,24 @@
-# Lab 1 Analisis de datos 1-2020
+# Repositorio de Laboratorios de Analisis de Datos 1-2020
 
-A continuación se describe la parte del código realizado para el primer laboratorio programado de Analisis de Datos 1-2020.
+Por:
 
-El código fue hecho en el lenguaje R y se utilizó el dataset de [heart-disease](https://archive.ics.uci.edu/ml/datasets/Heart+Disease) para analizar sus varibles.
+- Vicente Vega - [Hackasteroid142](https://github.com/Hackasteroid142)
+
+- Nicolas Gutierrez - [ngutierrezp](https://github.com/ngutierrezp)
+
+
+## Listado de laboratorios
+
+- Laboratorio 1 : [Análisis estadístico](Lab1)
+- Laboratorio 2 : [Agrupamiento K-medias](Lab2)
+
+
+
+## Dataset utilizado
+
+Para el desarrollo de todas las experiencias se ha utilizado el dataset de [heart-disease](https://archive.ics.uci.edu/ml/datasets/Heart+Disease).
+
+*NOTA:* Todos los códigos fueron realizados en el lenguaje R con su IDLE RStudio.
 
 Dentro de este dataset se encuentran 4 subdataset los cuales pertenecen a 4 lugares distintos donde se tomaron muestras:
 
