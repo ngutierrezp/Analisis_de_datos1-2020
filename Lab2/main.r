@@ -8,6 +8,7 @@
 
 library(ggpubr)
 library(scales)
+library(factoextra)
 
 
 
@@ -20,6 +21,7 @@ setwd(dirstudio)
 
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 if(!exists("normalize.data.frame", mode="function")) source("scripts/normalization.R")
+if(!exists("numCluster", mode="function")) source("scripts/getNumCluster.R")
 
 # Estructura del main
 
@@ -49,6 +51,10 @@ all.df <- getAllData()
 # Este es el caso de : age y ca 
 
 normalized.df <- normalize.data.frame(all.df)
+
+#Se obtienen el numero maximo de cluster a través del método del codo y la silueta.
+
+numCluster(normalized.df)
 
 
 
