@@ -2,11 +2,14 @@
 ###################################
 #     Paquetes utilizados:        #
 
-
+#install.packages(ggplot2)
 #install.packages("ggpubr")
 #install.packages("scales")
+#install.packages("VIM")
 
+library(VIM)
 library(ggpubr)
+library(ggmap)
 library(scales)
 library(factoextra)
 
@@ -52,9 +55,26 @@ all.df <- getAllData()
 
 normalized.df <- normalize.data.frame(all.df)
 
+# Antes de proceder, es necesario quitar las clase ademas de las variables que no fueron significativas
+# durante el primer estudio (consular primer Lab).
+
+# De esta ultima tambien se decido quitar la variable slope la cual contiene demasiados NAs.
+
+normalized.df <- normalized.df[c(2,3,4,5,8,9,10)]
+
+
 #Se obtienen el numero maximo de cluster a través del método del codo y la silueta.
 
 numCluster(normalized.df)
+
+# Como se pueden ver los graficos, los numeros sugueridos de clusters termina siendo 10 sin embargo 
+# el metodo del codo se puede ver que el numero sugerido es 3.
+
+
+normalized.df.without.na <- na.omit(normalized.df)
+
+
+clusters <- kmeans(normalized.df.without.na, 3)
 
 
 
