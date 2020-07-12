@@ -12,6 +12,7 @@ library(ggpubr)
 library(ggmap)
 library(scales)
 library(factoextra)
+library(NbClust)
 
 
 
@@ -72,6 +73,7 @@ numCluster(normalized.df)
 
 
 normalized.df.without.na <- na.omit(normalized.df)
+
 
 
 clusters <- kmeans(normalized.df.without.na, 3)
