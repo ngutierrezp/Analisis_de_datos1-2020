@@ -9,7 +9,6 @@
 
 library(VIM)
 library(ggpubr)
-library(ggmap)
 library(scales)
 library(factoextra)
 library(NbClust)
@@ -66,7 +65,7 @@ normalized.df <- normalized.df[c(2,3,4,5,8,9,10)]
 
 #Se obtienen el numero maximo de cluster a través del método del codo y la silueta.
 
-numCluster(normalized.df)
+n_cluster <- numCluster(normalized.df)
 
 # Como se pueden ver los graficos, los numeros sugueridos de clusters termina siendo 10 sin embargo 
 # el metodo del codo se puede ver que el numero sugerido es 3.
@@ -76,7 +75,7 @@ normalized.df.without.na <- na.omit(normalized.df)
 
 
 
-clusters <- kmeans(normalized.df.without.na, 3)
+clusters <- kmeans(normalized.df.without.na, 2)
 
 
 
