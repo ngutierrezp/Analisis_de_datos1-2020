@@ -1,4 +1,4 @@
-normalize.data.frame <- function(df){
+renormalize.data.frame <- function(df){
   
   df$trestbps  = rescale(df$trestbps )
   df$chol  = rescale(df$chol )
@@ -8,5 +8,13 @@ normalize.data.frame <- function(df){
   df$cp = rescale(df$cp)
   
   return(df)
+  
+}
+
+normalize.data.frame <- function(df){
+  
+  result <- apply(df[ , 2:ncol(df)], MARGIN = 2, scale)
+  
+  return(result)
   
 }
