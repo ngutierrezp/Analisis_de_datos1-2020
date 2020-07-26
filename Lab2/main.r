@@ -28,6 +28,7 @@ if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R"
 if(!exists("renormalize.data.frame", mode="function")) source("scripts/normalization.R")
 if(!exists("normalize.data.frame", mode="function")) source("scripts/normalization.R")
 if(!exists("numCluster", mode="function")) source("scripts/getNumCluster.R")
+if(!exists("conf.matrix ", mode="function")) source("scripts/confMatrix.R")
 
 
 
@@ -193,8 +194,14 @@ modi.cluster <- ifelse(clusters$cluster == 2,0,1)
 
 resume <-table(normalized.df.wot.na.with.class$num,modi.cluster, dnn = list("grupo real","cluster"))
 
+#Se obtiene la matriz de confusion junto a sus datos 
+matrix <- conf.matrix(modi.cluster,normalized.df.wot.na.with.class)
 
+#Matriz de confusion
+matrixCong <- matrix$matrixConf
 
+#Datos del modelo
+model.data <- matrix$list
 
 
 
