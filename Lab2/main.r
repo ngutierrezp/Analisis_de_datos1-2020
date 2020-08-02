@@ -197,7 +197,6 @@ modi.cluster <- ifelse(clusters$cluster == 2,0,1)
 
 ### Metricas ###
 
-metrics <- data.frame(accuracy,error_rate,sensitivity,especificity)
 #Se obtiene la matriz de confusion junto a sus datos 
 matrix <- conf.matrix(modi.cluster,normalized.df.wot.na.with.class)
 
