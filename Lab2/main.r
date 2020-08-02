@@ -6,14 +6,15 @@
 #install.packages("ggpubr")
 #install.packages("scales")
 #install.packages("VIM")
-#installed.packages("amap")
+#install.packages("factoextra")
 
 library(VIM)
 library(ggpubr)
 library(scales)
 library(factoextra)
 library(NbClust)
-library(amap)
+library(ggplot2)
+
 
 
 
@@ -31,7 +32,7 @@ if(!exists("numCluster", mode="function")) source("scripts/getNumCluster.R")
 
 
 
-set.seed(19546396)
+
 
 # Estructura del main
 
@@ -154,6 +155,7 @@ distance.data <- dist(normalized.df.without.na, method = "manhattan")
 # distinta. Es recomendable que este último valor sea alto, entre 25-50, para 
 # no obtener resultados malos debido a una iniciación poco afortunada del proceso.
 
+set.seed(78546)
 clusters <- kmeans(distance.data, 2, nstart = 40, iter.max = 50)
 
 
@@ -174,10 +176,10 @@ clusters <- kmeans(distance.data, 2, nstart = 40, iter.max = 50)
 # gracias a la funcion fviz_cluster, es posible esto ya despliega los datos
 # en las componentes principales del dataset.
 
-graph.cluster <-fviz_cluster(clusters, data = distance.data)
+graph.cluster <-fviz_cluster(clusters, data = distance.data,pointsize = 2,)
 
 # para este caso de desplegaron los datos en las componentes que explican el
-# 51.9% + 20.3% de los datos, un 62.2% en total.
+# 51.9% + 20.3% de los datos, un 72.2% en total.
 
 
 
@@ -187,13 +189,28 @@ graph.cluster <-fviz_cluster(clusters, data = distance.data)
 
 
 # Al saberse la clase es posible saber cuanto error existe en el calculo del
-# cluster
+# cluster. En general esto no se suele hacer ya que las observaciones no suelen
+# tener la clase.
 
 modi.cluster <- ifelse(clusters$cluster == 2,0,1)
 
-resume <-table(normalized.df.wot.na.with.class$num,modi.cluster, dnn = list("grupo real","cluster"))
+resume <- table(normalized.df.wot.na.with.class$num,modi.cluster, dnn = list("grupo real","cluster"))
 
+### Metricas ###
 
+total <- length(modi.cluster)
+tp <- resume[1]
+fp <- resume[2]
+fn <- resume[3]
+tn <- resume[4]
+positive <- tp + fp
+negative <- fn + tn
+
+accuracy <- (tp+tn)/total
+error_rate <- (fp+fn)/total
+sensitivity <- tp/positive
+especificity <- tn/negative
+metrics <- data.frame(accuracy,error_rate,sensitivity,especificity)
 
 
 
