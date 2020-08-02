@@ -29,6 +29,7 @@ if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R"
 if(!exists("renormalize.data.frame", mode="function")) source("scripts/normalization.R")
 if(!exists("normalize.data.frame", mode="function")) source("scripts/normalization.R")
 if(!exists("numCluster", mode="function")) source("scripts/getNumCluster.R")
+if(!exists("conf.matrix ", mode="function")) source("scripts/confMatrix.R")
 
 
 
@@ -42,8 +43,8 @@ if(!exists("numCluster", mode="function")) source("scripts/getNumCluster.R")
 
 
 
-#     all.df :  Contiene toda la información del dataset
-#               incluida la información del lugar de donde
+#     all.df :  Contiene toda la informaciï¿½n del dataset
+#               incluida la informaciï¿½n del lugar de donde
 #               fueron obtenidos (cleve,swit,hung,va)
 all.df <- getAllData()
 
@@ -57,7 +58,7 @@ all.df <- getAllData()
 
 # Para el pre-procesamiento antes de aplicar un cluster, es necesario 
 # normalizar los datos numericos que tienden a ser muy atipicos
-# Esta información se puede obtener del trabajo anterior 
+# Esta informaciï¿½n se puede obtener del trabajo anterior 
 # age, trestbps, chol, thalach, oldpeakyca y ca
 
 
@@ -97,7 +98,7 @@ normalized.df <- normalize.data.frame(pre.normalized.df)
 
 
 
-# Eliminación de NA #
+# Eliminaciï¿½n de NA #
 #####################
 
 normalized.df.without.na <- na.omit(normalized.df)
@@ -148,12 +149,12 @@ distance.data <- dist(normalized.df.without.na, method = "manhattan")
 
 # clustering #
 ##############
-# El paso que sigue es la aplicación del algoritmo de clustering.
+# El paso que sigue es la aplicaciï¿½n del algoritmo de clustering.
 
-# se establece un nstart en 40 debido a que determina el número de veces que 
-# se va a repetir el proceso, cada vez con una asignación aleatoria inicial 
-# distinta. Es recomendable que este último valor sea alto, entre 25-50, para 
-# no obtener resultados malos debido a una iniciación poco afortunada del proceso.
+# se establece un nstart en 40 debido a que determina el nï¿½mero de veces que 
+# se va a repetir el proceso, cada vez con una asignaciï¿½n aleatoria inicial 
+# distinta. Es recomendable que este ï¿½ltimo valor sea alto, entre 25-50, para 
+# no obtener resultados malos debido a una iniciaciï¿½n poco afortunada del proceso.
 
 set.seed(78546)
 clusters <- kmeans(distance.data, 2, nstart = 40, iter.max = 50)
@@ -162,7 +163,7 @@ clusters <- kmeans(distance.data, 2, nstart = 40, iter.max = 50)
 
 
 
-# Visualización #
+# Visualizaciï¿½n #
 #################
 # parte importante del proceso de clustering es la etapa de visualizacion
 # donde se exponen los reultados.
@@ -194,24 +195,17 @@ graph.cluster <-fviz_cluster(clusters, data = distance.data,pointsize = 2,)
 
 modi.cluster <- ifelse(clusters$cluster == 2,0,1)
 
-resume <- table(normalized.df.wot.na.with.class$num,modi.cluster, dnn = list("grupo real","cluster"))
-
 ### Metricas ###
 
-total <- length(modi.cluster)
-tp <- resume[1]
-fp <- resume[2]
-fn <- resume[3]
-tn <- resume[4]
-positive <- tp + fp
-negative <- fn + tn
-
-accuracy <- (tp+tn)/total
-error_rate <- (fp+fn)/total
-sensitivity <- tp/positive
-especificity <- tn/negative
 metrics <- data.frame(accuracy,error_rate,sensitivity,especificity)
+#Se obtiene la matriz de confusion junto a sus datos 
+matrix <- conf.matrix(modi.cluster,normalized.df.wot.na.with.class)
 
+#Matriz de confusion
+matrixCong <- matrix$matrixConf
+
+#Datos del modelo
+model.data <- matrix$list
 
 
 
