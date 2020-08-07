@@ -72,11 +72,11 @@ all.df <- getAllData()
 
 # De esta ultima tambien se decido quitar la variable slope la cual contiene demasiados NAs.
 
-pre.normalized.df <- all.df[c(2,3,4,5,8,9,10)]
+pre.normalized.df <- all.df[c(3,4,5,8,9,10)]
 
 
 # Este df se utilizara luego para comparar
-pre.normalized.df.with.class <- all.df[c(2,3,4,5,8,9,10,14)]
+pre.normalized.df.with.class <- all.df[c(3,4,5,8,9,10,14)]
 
 
 
@@ -106,6 +106,13 @@ normalized.df.wot.na.with.class <-  na.omit(pre.normalized.df.with.class)
 
 
 
+
+
+
+#################
+# Procesamiento #
+#################
+
 ### Obtencion del numero de clusters ###
 ########################################
 
@@ -122,14 +129,6 @@ normalized.df.wot.na.with.class <-  na.omit(pre.normalized.df.with.class)
 n_cluster <- numCluster(normalized.df)
 
 # segun el analisis, el mejor numero de cluster tambien es 2.
-
-
-
-
-
-#################
-# Procesamiento #
-#################
 
 
 
@@ -177,7 +176,7 @@ clusters <- kmeans(distance.data, 2, nstart = 40, iter.max = 50)
 # gracias a la funcion fviz_cluster, es posible esto ya despliega los datos
 # en las componentes principales del dataset.
 
-graph.cluster <-fviz_cluster(clusters, data = distance.data,pointsize = 2,)
+graph.cluster <-fviz_cluster(clusters, data = distance.data,pointsize = 2, main="manhattan cluster plot")
 
 # para este caso de desplegaron los datos en las componentes que explican el
 # 51.9% + 20.3% de los datos, un 72.2% en total.
@@ -197,7 +196,6 @@ modi.cluster <- ifelse(clusters$cluster == 2,0,1)
 
 ### Metricas ###
 
-metrics <- data.frame(accuracy,error_rate,sensitivity,especificity)
 #Se obtiene la matriz de confusion junto a sus datos 
 matrix <- conf.matrix(modi.cluster,normalized.df.wot.na.with.class)
 

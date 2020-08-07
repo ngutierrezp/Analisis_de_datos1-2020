@@ -13,7 +13,7 @@ renormalize.data.frame <- function(df){
 
 normalize.data.frame <- function(df){
   
-  result <- apply(df[ , 2:ncol(df)], MARGIN = 2, scale)
+  result <- apply(df[ , 1:ncol(df)], MARGIN = 2, scale)
   
   return(result)
   
