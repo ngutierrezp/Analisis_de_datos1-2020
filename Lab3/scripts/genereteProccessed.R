@@ -54,13 +54,9 @@ getAllData <- function() {
   all$num = as.integer(all$num)
   
   
-  all$thal <- replace(all$thal,all$thal==1,NA)
-  all$thal <- replace(all$thal,all$thal==2,10)
-  all$thal <- replace(all$thal,all$thal==5,10)
-  all$thal <- replace(all$thal,all$thal==3,20)
-  all$thal <- replace(all$thal,all$thal==6,20)
-  all$thal <- replace(all$thal,all$thal==4,30)
-  all$thal <- replace(all$thal,all$thal==7,30)
+  all$trestbps <- replace(all$trestbps,all$trestbps==0,NA)
+  
+  
   
   
   all$chol <- replace(all$chol,all$chol==0,NA)
@@ -113,9 +109,9 @@ getMixedData <- function(df){
   
   thal <- df$thal
   thal <- replace(thal,thal==1,NA)
-  thal <- replace(thal,thal==10,"normal")
-  thal <- replace(thal,thal==20,"fixed defect")
-  thal <- replace(thal,thal==30,"reversable defect")
+  thal <- replace(thal,thal==3,"normal")
+  thal <- replace(thal,thal==6,"fixed defect")
+  thal <- replace(thal,thal==7,"reversable defect")
   
   disease <- ifelse(df$num == 1, "Yes","No")
   
