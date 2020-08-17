@@ -24,7 +24,7 @@ normalThalach <- function(df,output){
 
 
 
-discretizeData <- function(df) {
+discretize.Data <- function(df) {
   
   # AGE
   # Debido a que la edad se comporta de forma normal.
@@ -34,6 +34,7 @@ discretizeData <- function(df) {
   # OA = Old Adult = [Min Age, 53]
   
   age <- ifelse(df$age >= 54, "OA","YA")
+  
   
   
   # SEX ya esta en forma binaria
@@ -53,6 +54,7 @@ discretizeData <- function(df) {
   
   trestbps <- ifelse(df$trestbps >= 129, "hiper","normal")
   
+  
   # CHOL
   # Indica el nivel de colesterol. 
   # Un colesterol es saludable es condicerado hasta los 200 mg/dL
@@ -60,6 +62,7 @@ discretizeData <- function(df) {
   # un colesterol saludable o no. 
   
   chol <- ifelse(df$chol >= 200, "healthy","no healthy")
+  
   
   
   
@@ -106,6 +109,23 @@ discretizeData <- function(df) {
   num <- df$num
   
   discre <- cbind(age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,num)
-  return(as.data.frame(discre))
+  
+  discre.df <- as.data.frame(discre)
+  discre.df$age <- as.factor( discre.df$age)
+  discre.df$sex <- as.factor( discre.df$sex)
+  discre.df$cp <- as.factor( discre.df$cp)
+  discre.df$trestbps <- as.factor( discre.df$trestbps)
+  discre.df$chol <- as.factor( discre.df$chol)
+  discre.df$fbs <- as.factor( discre.df$fbs)
+  discre.df$restecg <- as.factor( discre.df$restecg)
+  discre.df$thalach <- as.factor( discre.df$thalach)
+  discre.df$exang <- as.factor( discre.df$exang)
+  discre.df$oldpeak <- as.factor( discre.df$oldpeak)
+  discre.df$slope <- as.factor( discre.df$slope)
+  discre.df$ca <- as.factor( discre.df$ca)
+  discre.df$thal <- as.factor( discre.df$thal)
+  discre.df$num <- as.factor( discre.df$num)
+  
+  return(discre.df)
   
 }

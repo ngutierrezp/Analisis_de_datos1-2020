@@ -21,7 +21,7 @@ setwd(dirstudio)
 
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 
-if(!exists("discretizeData", mode="function")) source("scripts/discretize.R")
+if(!exists("discretize.Data", mode="function")) source("scripts/discretize.R")
 
 
 
@@ -39,7 +39,7 @@ if(!exists("discretizeData", mode="function")) source("scripts/discretize.R")
 #     all.df :  Contiene toda la informaciï¿½n del dataset
 #               incluida la informaciï¿½n del lugar de donde
 #               fueron obtenidos (cleve,swit,hung,va)
-all.df <- getAllData()
+all.df <- suppressWarnings(getAllData())
 
 #######################
 # Obtención de reglas #
@@ -60,7 +60,7 @@ all.df <- getAllData()
 
 # Para obtener la cesta primero se deben discretizar los datos.
 
-basket <- discretizeData(all.df)
+basket <- discretize.Data(all.df)
 
 
 ### 2.- Obtención de listado de transacciones
@@ -87,7 +87,7 @@ item.freq <- itemFrequency(x = transactions, type = "absolute") %>%
 
 ### 4.- Obtención de items set mas frecuentes
 
-support <- 30 / dim(transactions)[1]
+support <- 90 / dim(transactions)[1]
 
 itemsets <- apriori(data = transactions,
                     parameter = list(support = support,
@@ -99,5 +99,27 @@ itemsets <- apriori(data = transactions,
 # De esto se puede ver la función pudo encontrar 21.997 itemset frecuentes
 # sin embargo este valor es demasiado elevado.
 
+# Este item set puede ser filtrado en diferentes formas
+# Top 20 de item set de un elemento
+# Top 20 de item set de dos elementos
+# ...
 
+# Filtrar una caracteristica que este dentro del Item set
+# existen variados filtros para aplicar a los itemset.
+
+### 5.- Obtención de reglas de asociación
+
+rules <- apriori(data = transactions,
+                  parameter = list(support = support,
+                                   confidence = 0.90,
+                                   minlen = 1,
+                                   maxlen = 14,
+                                   maxtime = 10,
+                                   target = "rules"),
+                 appearance=list(rhs = c("num=0", "num=1"))
+                 )
+
+#######################
+# Filtrado de Reglas #
+#######################
 
