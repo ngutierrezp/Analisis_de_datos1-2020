@@ -11,6 +11,8 @@ Por:
 
 - Laboratorio 1 : [Análisis estadístico](Lab1)
 - Laboratorio 2 : [Agrupamiento K-medias](Lab2)
+- Laboratorio 2 : [Reglas de Asociación](Lab2)
+
 
 
 
