@@ -47,8 +47,8 @@ discretize.Data <- function(df) {
   
   # TRESTBPS
   # indica la presion arterial en reposo.
-  # este valor es normal si esta dentro de [120-139]
-  # un valor mayor a 139 pasaria a una Hipertensión
+  # este valor es normal si esta dentro de [120-129]
+  # un valor mayor a 129 pasaria a una Hipertensión
   # por lo tanto esta variable nos puede indicar si una persona
   # es HIPERTENSA O NO.
   
