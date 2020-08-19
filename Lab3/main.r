@@ -23,6 +23,8 @@ if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R"
 
 if(!exists("discretize.Data", mode="function")) source("scripts/discretize.R")
 
+if(!exists(c("filterItemSet","filterRules"), mode="function")) source("scripts/filter.R")
+
 
 
 
@@ -87,7 +89,7 @@ item.freq <- itemFrequency(x = transactions, type = "absolute") %>%
 
 ### 4.- Obtención de items set mas frecuentes
 
-support <- 90 / dim(transactions)[1]
+support <- 50 / dim(transactions)[1]
 
 itemsets <- apriori(data = transactions,
                     parameter = list(support = support,
@@ -96,7 +98,8 @@ itemsets <- apriori(data = transactions,
                                      maxtime = 10,
                                      target = "frequent itemset"))
 
-# De esto se puede ver la función pudo encontrar 21.997 itemset frecuentes
+
+# De esto se puede ver la función pudo encontrar 9442 itemset frecuentes
 # sin embargo este valor es demasiado elevado.
 
 # Este item set puede ser filtrado en diferentes formas
@@ -107,6 +110,8 @@ itemsets <- apriori(data = transactions,
 # Filtrar una caracteristica que este dentro del Item set
 # existen variados filtros para aplicar a los itemset.
 
+itemFilt <-filterItemSet(itemsets,top=10,c("sex=1","age=YA"),absolute=TRUE)
+
 ### 5.- Obtención de reglas de asociación
 
 rules <- apriori(data = transactions,
@@ -115,11 +120,13 @@ rules <- apriori(data = transactions,
                                    minlen = 1,
                                    maxlen = 14,
                                    maxtime = 10,
-                                   target = "rules"),
-                 appearance=list(rhs = c("num=0", "num=1"))
-                 )
+                                   target = "rules")
+                )
+                 
 
 #######################
 # Filtrado de Reglas #
 #######################
+
+rulesFilt <- filterRules(rules,filterVector=c("num=0"),consequence = FALSE)
 
