@@ -22,14 +22,14 @@ filterItemSet <- function(itemset,top=20,itemsVector=NULL,itemsetSize=1,absolute
       itemsets_filtrado <- arules::subset(itemsets,
                                           subset = items %ain% itemsVector )
       
-      return(inspect(sort(itemsets_filtrado[size(itemsets_filtrado) > itemsetSize], decreasing = TRUE)[1:top]))
+      return(inspect(sort(itemsets_filtrado[size(itemsets_filtrado) >= itemsetSize], decreasing = TRUE)[1:top]))
       
     }
     else if (!absolute & is.vector(itemsVector) & is.character(itemsVector) ) {
       itemsets_filtrado <- arules::subset(itemsets,
                                           subset = items %in% itemsVector )
       
-      return(inspect(sort(itemsets_filtrado[size(itemsets_filtrado) > itemsetSize], decreasing = TRUE)[1:top]))
+      return(inspect(sort(itemsets_filtrado[size(itemsets_filtrado) >= itemsetSize], decreasing = TRUE)[1:top]))
       
     }
     else{
