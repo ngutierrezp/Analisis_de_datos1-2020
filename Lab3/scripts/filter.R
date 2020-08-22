@@ -13,7 +13,7 @@ filterItemSet <- function(itemset,top=20,itemsVector=NULL,itemsetSize=1,absolute
   # absolute = FALSE Cualquiera de los elementos puede estar en el filtro.
   
   if (is.null(itemsVector)) {
-    return(inspect(sort(itemsets[size(itemsets) > itemsetSize], decreasing = TRUE)[1:top]))
+    return(inspect(sort(itemsets[size(itemsets) >= itemsetSize], decreasing = TRUE)[1:top]))
     
   }
   else{

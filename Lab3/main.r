@@ -110,7 +110,7 @@ itemsets <- apriori(data = transactions,
 # Filtrar una caracteristica que este dentro del Item set
 # existen variados filtros para aplicar a los itemset.
 
-itemFilt <-filterItemSet(itemsets,top=10,c("sex=1","age=YA"),absolute=TRUE)
+itemFilt <-filterItemSet(itemsets,top=10,absolute=TRUE)
 
 ### 5.- Obtención de reglas de asociación
 
@@ -122,11 +122,32 @@ rules <- apriori(data = transactions,
                                    maxtime = 10,
                                    target = "rules")
                 )
+
+rules.sicky <- apriori(data = transactions,
+                 parameter = list(support = support,
+                                  confidence = 0.90,
+                                  minlen = 1,
+                                  maxlen = 14,
+                                  maxtime = 10,
+                                  target = "rules"),
+                 appearance = list(rhs=c("num=1"))
+)
+
+rules.healthy <- apriori(data = transactions,
+                       parameter = list(support = support,
+                                        confidence = 0.90,
+                                        minlen = 1,
+                                        maxlen = 14,
+                                        maxtime = 10,
+                                        target = "rules"),
+                       appearance = list(rhs=c("num=0"))
+)
                  
 
 #######################
 # Filtrado de Reglas #
 #######################
 
-rulesFilt <- filterRules(rules,filterVector=c("num=0"),consequence = FALSE)
+rulesFilt <- filterRules(rules,top=10)
+
 
