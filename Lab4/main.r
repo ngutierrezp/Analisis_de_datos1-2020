@@ -7,12 +7,12 @@
 #install.packages("ggplot2")
 #install.packages("C50")
 #install.packages("caret")
+#install.packages("tree")
 
-library(ggpubr)
-library(ggplot2)
+library(tidyverse)
 library(C50)
 library(caret)
-
+library(tree)
 
 
 ###################################
@@ -79,17 +79,128 @@ if(!exists(c("filterItemSet","filterRules"), mode="function")) source("scripts/f
 
 # Estructura del main
 
-#################
-# DATOS LIMPIOS #
-#################
+###################
+# DATOS COMPLETOS #
+###################
 
 
 
-#     all.df :  Contiene toda la informaciï¿½n del dataset
-#               incluida la informaciï¿½n del lugar de donde
+#     all.df :  Contiene toda la información del dataset
+#               incluida la información del lugar de donde
 #               fueron obtenidos (cleve,swit,hung,va)
 all.df <- suppressWarnings(getAllData())
 
+
 #######################
+
+
+
+
+
+
+#################################
+# PARTE 1: Generar Arbol
+#################################
+
+
+
+# Como ya tenemos los datos, generaremos un primer arbol con todas las variables
+# estudiando la variable de respuesta num:
+
+# num : 1 -> Paciente enfermo
+# num : 0 -> Paciente Sano
+
+
+### ALGORITMO C5.0:
+
+# El algoritmo C5.0 permite crear arboles de clasificación, se caracteriza por :
+
+#   1.- Utiliza modelos de reglas basados en boosting
+#   2.- Utiliza una medida de pureza por entropia.
+#   3.- Poda las ramas del arbol por medio de pessimistic pruning
+#   4.- Utiliza una estrategia de selección de predictores antes de cada ajuste.
+#   5.- Aplica un algoritmo de boosting : AdaBoost
+#   6.- Asigna diferente peso a cada tipo de error.
+
+
+
+## Primeramente veamos como se comporta un arbol con todas las variables
+
+first.tree <- tree(num ~ ., all.df[,-15])
+
+
+sum.first.tree <- summary(tree)
+
+## Si se ve como se comporta el primer arbol podemos ver que posee una
+# promedio de desviación del 9% aproximadamente. La idea es que ese % sea lo
+# menor posible. Tambien se puede que este arbol posee 13 nodos terminales, por
+# lo que si vemos como es el arbol generado se tiene : 
+
+plot(x = first.tree, type = "proportional")
+text(x = first.tree, splits = TRUE, pretty = 0,
+     cex = 0.7, col = "firebrick")
+
+
+# Del grafico se puede ver que las variables más influyentes en la predición
+# son thal, ca, cp.
+
+# sin emabargo de los laboratorios anteriores se sabe que thal y ca poseen
+# gran numero de NA´s lo que implica que los valores que toman estas variables
+# son engañosos y no reflejan la realidad de los pacientes.
+
+
+
+
+# tenemos que tener en cuenta que este primer arbol generado no es del todo
+# certero ya que estamos utilizando todos los datos del dataset por lo que
+# existe el peligro de que el modelo se este sobreajustando. Como primera
+# aproximación nos sirve para ver sus comportamiento pero no se puede 
+# establecer apriori como una solución.
+
+
+
+# Otro error que se puede detectar si se ingresan los datos tal cual, es que
+# todos de ellos son numericos. Los arboles tambien aceptan variables cualitativas
+# por lo que es posible darles variables con la interpretación adecuada como
+# factor.
+
+
+mixed.all.df <- getMixedData(all.df)
+factor.all.df <- mixed.all.df %>% map_if(.p = is_character, .f = as.factor) %>%
+        as.data.frame()
+
+
+# Como ahora ya se trabaja en factores, se pueden sacar las varaibles con más
+# NA´s vistos de los laboratorios anteriores.
+
+factor.all.df <- factor.all.df[,-c(11,12,13,15)] 
+
+
+
+
+############################
+# Arbol con algoritmo C5.0
+
+
+# Para este algoritmo se dividirá la totalidad de los datos en 70% para
+# el entrenamiento y 30% para el test del modelo.
+
+
+set.seed(985426)
+
+ntrain <- nrow(factor.all.df) * 0.7
+
+index_train<-sample(1:nrow(factor.all.df),size = ntrain)
+
+train.df<-factor.all.df[index_train,]
+
+test.df<-factor.all.df[-index_train,]
+
+
+# Debemos comprobar se mantiene la misma proporción entre sano y enfermos
+# entre las divisiones de entrenamiento y prueba.
+
+
+
 
 
