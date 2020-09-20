@@ -2,12 +2,11 @@
 ###################################
 #     Paquetes utilizados:        #
 
-
-#install.packages("ggpubr")
-#install.packages("ggplot2")
+#install.packages("tidyverse")
 #install.packages("C50")
 #install.packages("caret")
 #install.packages("tree")
+
 
 library(tidyverse)
 library(C50)
@@ -24,9 +23,7 @@ setwd(dirstudio)
 
 if(!exists("getAllData", mode="function")) source("scripts/genereteProccessed.R")
 
-if(!exists("discretize.Data", mode="function")) source("scripts/discretize.R")
-
-if(!exists(c("filterItemSet","filterRules"), mode="function")) source("scripts/filter.R")
+if(!exists(c("filterItemSet","filterRules"), mode="function")) source("scripts/confMatrix.R")
 
 #############################
 # LAB 4: ARBOLES DE DECISIÓN
@@ -185,7 +182,6 @@ factor.all.df <- factor.all.df[,-c(11,12,13,15)]
 # Para este algoritmo se dividirá la totalidad de los datos en 70% para
 # el entrenamiento y 30% para el test del modelo.
 
-
 set.seed(985426)
 
 ntrain <- nrow(factor.all.df) * 0.7
@@ -200,7 +196,56 @@ test.df<-factor.all.df[-index_train,]
 # Debemos comprobar se mantiene la misma proporción entre sano y enfermos
 # entre las divisiones de entrenamiento y prueba.
 
+diference.df <- equal.train.test(train.df,test.df)
 
+# Vemos que para este caso la diferencia entre Train y Test es menos del 5%
+# por lo que podemos proseguir con la generación del árbol.
+
+
+
+
+#  Generación de Árbol con C5.0
+# ------------------------------
+
+## Generación del Arbol
+arbol.c50 <- C5.0(disease ~ ., data = train.df)
+
+
+##Plot del arbol
+plot.arbolC50 <- plot(arbol.c50)
+
+
+## Reglas del arbol
+rules.arbol.c50 <- C5.0(x = train.df[, -11], y = train.df$disease, rules = T)
+
+
+
+
+
+
+#  Generación de matriz de confución
+# ------------------------------------
+
+# Generación de datos de prueba respecto al set de entrenamiento.
+predic.arbolC50 <- predict(arbol.c50, test.df[,-11], type = "class")
+
+# pre-matriz con los datos tabulados
+pre.matriz <- table(test.df$disease, predic.arbolC50)
+
+# matriz de confusión
+matrix <- confusionMatrix(pre.matriz)
+
+
+
+# Estudio de modelo
+# ------------------
+
+# De la matrix de confusión se puede obtener lo siguiente :
+
+# El acurrancy es cerca del 81%, si bien no es un valor bajo
+# tampoco es un valor muy alto como los obtenidos en el modelo de regresión.
+
+# 
 
 
 

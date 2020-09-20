@@ -91,8 +91,8 @@ getMixedData <- function(df){
   
   restecg <-df$restecg
   restecg <- replace(restecg,restecg==0,"normal")
-  restecg <- replace(restecg,restecg==1," wave abnormality")
-  restecg <- replace(restecg,restecg==2," ventricular hypertrophy")
+  restecg <- replace(restecg,restecg==1,"wv ab") # wave abnormality
+  restecg <- replace(restecg,restecg==2,"vn hy") #ventricular hypertrophy
   
   thalach <-df$thalach
   

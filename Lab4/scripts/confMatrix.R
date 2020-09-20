@@ -1,4 +1,4 @@
-conf.matrix <- function(clusters, data) {
+conf.matrix <- function(train, test) {
   
   tp<-sum(data$num==1 & clusters==1)
   tn<-sum(data$num==0 & clusters==0)
@@ -25,3 +25,23 @@ conf.matrix <- function(clusters, data) {
   
   return(list(matrixConf=matrixConf,list=valores)) 
 }
+
+
+equal.train.test <- function(train.df,test.df){
+  
+  train <- as.data.frame(table(train.df$disease)/nrow(train.df))
+  names(train)[names(train) == 'Freq'] <- 'Train'
+  
+  test <- as.data.frame(table(test.df$disease)/nrow(test.df))
+  names(test)[names(test) == 'Freq'] <- 'Test'
+  test <- test$Test
+  
+  df <- data.frame(train,test)
+  names(df)[names(df) == 'Var1'] <- ''
+  df$Diference <- abs(df$Train - df$test)
+  
+  
+  return(df)
+  
+}
+
