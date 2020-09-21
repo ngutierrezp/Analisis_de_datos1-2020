@@ -496,11 +496,6 @@ imp.boost.matrix <- caret::confusionMatrix(imp.pre.boost.matriz)
 plot(imp.boost.tree)
 
 
-imp.prediction <- prediction(as.numeric(imp.predic.boost.tree), as.numeric(imp.test.df$sex))
-error.curve <- performance(imp.prediction,"tpr","fpr")
-
-plot(error.curve)
-
 ###
 ## Analisis
 
@@ -519,4 +514,11 @@ plot(error.curve)
 # En sistesis se ha creado un buen modelo el que hay que comparar con 
 # otros modelo obtenidos por otros metodos. 
 
+imp.prediction <- prediction(as.numeric(imp.predic.boost.tree), as.numeric(imp.test.df$sex))
+error.curve <- performance(imp.prediction,"tpr","fpr")
+
+plot(error.curve)
+
+## Obteniendo reglas del arbol :
+rules.imp.boost.tree <- C5.0(disease ~ ., data = imp.train.df, trials=18,rules = T)
 
