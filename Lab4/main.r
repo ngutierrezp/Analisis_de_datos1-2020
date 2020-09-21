@@ -129,7 +129,7 @@ all.df <- suppressWarnings(getAllData())
 first.tree <- tree(num ~ ., all.df[,-15])
 
 
-sum.first.tree <- summary(tree)
+sum.first.tree <- summary(first.tree)
 
 ## Si se ve como se comporta el primer arbol podemos ver que posee una
 # promedio de desviación del 9% aproximadamente. La idea es que ese % sea lo
