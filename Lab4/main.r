@@ -14,7 +14,7 @@ library(C50)
 library(tree)
 library(caret)
 library(ggpubr)
-
+library(ROCR)
 
 
 ###################################
@@ -494,6 +494,12 @@ imp.pre.boost.matriz <- table(imp.test.df$disease, imp.predic.boost.tree)
 imp.boost.matrix <- caret::confusionMatrix(imp.pre.boost.matriz)
 
 plot(imp.boost.tree)
+
+
+imp.prediction <- prediction(as.numeric(imp.predic.boost.tree), as.numeric(imp.test.df$sex))
+error.curve <- performance(imp.prediction,"tpr","fpr")
+
+plot(error.curve)
 
 ###
 ## Analisis
