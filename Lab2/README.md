@@ -3,7 +3,7 @@
 
 El código incluido en estas carpetas es la implementación de un algortimo de clustering: K-Means.
 
-Un método de agrupamiento conocido es el de #clustering# el cual consiste en una serie de técnicas *no supervisadas* con el objetivo de encontrar grupos o patrones **clústers**. Los grupos se establecen de forma que en un mismo grupo, los datos son similares entre ellos y distintos a los datos de otros grupo. Es un método no supervisado ya que no se toma en cuenta la clase o la variable de respuesta a la que realmente pertenece cada dato u observación. 
+Un método de agrupamiento conocido es el de **clustering** el cual consiste en una serie de técnicas *no supervisadas* con el objetivo de encontrar grupos o patrones **clústers**. Los grupos se establecen de forma que en un mismo grupo, los datos son similares entre ellos y distintos a los datos de otros grupo. Es un método no supervisado ya que no se toma en cuenta la clase o la variable de respuesta a la que realmente pertenece cada dato u observación. 
 
 Al existir variadas técnicas de clustering, se han desarrollado distintos tipos de algoritmos. Uno de ellos es **K-medias**, el cual se estudiará en este documento. Se profundizará en la teoría detrás de esta técnica de clustering además de aplicarlo en el estudio los pacientes en el dataset *heart disease*. 
 
