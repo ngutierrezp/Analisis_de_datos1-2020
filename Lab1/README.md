@@ -24,9 +24,9 @@ Al aplicar un Modelo de regresión Multiple sobre los datos para clasificar entr
 
 |                     | Real Enfermos | Real Sanos | Total |
 |---------------------|---------------|------------|-------|
-| Predicción Enfermos | 103           | 16         | 119   |
-| Predicción Sanos    | 16            | 54         | 70    |
-| Total               | 119           | 70         | 189   |
+| **Predicción Enfermos** | 103           | 16         | 119   |
+| **Predicción Sanos**    | 16            | 54         | 70    |
+| **Total**               | 119           | 70         | 189   |
 
 Las metricas resultantes de esto son lás siguientes : 
 
