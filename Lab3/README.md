@@ -1,4 +1,4 @@
-# Lab 1 Analisis de datos 1-2020: Reglas de Asociación
+# Lab 3 Analisis de datos 1-2020: Reglas de Asociación
 
 Las reglas de asociación son una forma de describir el comportamiento de ciertos patrones en base a una implicación; *si ocurre **A**, entonces, ocurre **B** ( con una determinada confianza)*. Esta reglas forman parte de la obtención del conocimiento y lo aportan para analizar que elementos ocurren con mas frecuencia.
 
