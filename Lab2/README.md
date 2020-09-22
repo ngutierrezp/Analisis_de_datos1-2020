@@ -13,3 +13,8 @@ Al existir variadas técnicas de clustering, se han desarrollado distintos tipos
 - Aplicar el algoritmo de clustering K-means al dataset heart disease.
 - Analizar el resultado extraído.
 - Comparar resultado con la literatura existente
+
+
+## Mejor Cluster encontrado:
+
+![Imgur](https://i.imgur.com/IIsOpfP.png)
