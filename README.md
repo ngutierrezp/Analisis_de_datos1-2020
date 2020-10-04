@@ -15,6 +15,15 @@ Por:
 - Laboratorio 4 : [Arboles de Decisión](Lab4)
 
 
+## Listado de Informes
+
+- Laboratorio 1 : [Análisis estadístico](https://es.overleaf.com/read/fctfvthstjjk)
+- Laboratorio 2 : [Agrupamiento K-medias](https://es.overleaf.com/read/gcwbddzwtgwd)
+- Laboratorio 3 : [Reglas de Asociación](https://es.overleaf.com/read/wfhmbvytqxdp)
+- Laboratorio 4 : [Arboles de Decisión](https://es.overleaf.com/read/mmhtsjrcxydd)
+
+
+
 
 
 ## Dataset utilizado
